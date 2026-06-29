@@ -111,11 +111,18 @@ export function SettingsDialog({
               id="game"
               value={draft.selectedGameId ?? ""}
               onChange={(e) => onPickGame(e.target.value)}
-              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm [color-scheme:dark] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <option value="">{t("settings.gamePlaceholder")}</option>
+              <option value="" className="bg-popover text-popover-foreground">
+                {t("settings.gamePlaceholder")}
+              </option>
               {games.map((g) => (
-                <option key={g.id} value={g.id} disabled={!g.installed}>
+                <option
+                  key={g.id}
+                  value={g.id}
+                  disabled={!g.installed}
+                  className="bg-popover text-popover-foreground"
+                >
                   {g.name} {g.installed ? "" : t("settings.notInstalled")}
                 </option>
               ))}
@@ -162,10 +169,14 @@ export function SettingsDialog({
               id="language"
               value={draft.language}
               onChange={(e) => patch({ language: e.target.value as Language })}
-              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm [color-scheme:dark] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <option value="es">Español</option>
-              <option value="en">English</option>
+              <option value="es" className="bg-popover text-popover-foreground">
+                Español
+              </option>
+              <option value="en" className="bg-popover text-popover-foreground">
+                English
+              </option>
             </select>
           </div>
 
