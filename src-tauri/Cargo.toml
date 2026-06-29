@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Professional cross-platform suite for managing Source Engine sprays."
 authors = ["Diego Quispe"]
 license = "SEE LICENSE IN ../LICENSE.md"
-repository = "https://github.com/diegoquispe/SprayHub"
+repository = "https://github.com/diegoalonsoqj/SprayHub"
 edition = "2021"
 rust-version = "1.77"
 

@@ -2,7 +2,7 @@
 //!
 //! - Windows: `%APPDATA%\SprayHub\config.json`
 //! - Linux:   `~/.config/sprayhub/config.json`
-//! - macOS:   `~/Library/Application Support/com.diegoquispe.SprayHub/config.json`
+//! - macOS:   `~/Library/Application Support/com.diegoalonsoqj.SprayHub/config.json`
 
 use std::path::{Path, PathBuf};
 
@@ -19,7 +19,7 @@ pub struct JsonConfigRepository {
 impl JsonConfigRepository {
     /// Build a repository writing to the default per-user config path.
     pub fn with_default_path() -> AppResult<Self> {
-        let dirs = ProjectDirs::from("com", "diegoquispe", "SprayHub").ok_or_else(|| {
+        let dirs = ProjectDirs::from("com", "diegoalonsoqj", "SprayHub").ok_or_else(|| {
             AppError::Config("could not resolve a config directory for this platform".into())
         })?;
         let path = dirs.config_dir().join("config.json");

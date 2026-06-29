@@ -1,11 +1,11 @@
 # Default owner for everything in the repo
-*       @diegoquispe
+*       @diegoalonsoqj
 
 # Backend
-/src-tauri/   @diegoquispe
+/src-tauri/   @diegoalonsoqj
 
 # Frontend
-/src/         @diegoquispe
+/src/         @diegoalonsoqj
 
 # CI / repo config
-/.github/     @diegoquispe
+/.github/     @diegoalonsoqj

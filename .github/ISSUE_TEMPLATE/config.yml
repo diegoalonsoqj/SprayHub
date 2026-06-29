@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security vulnerability
-    url: https://github.com/diegoquispe/SprayHub/security/advisories/new
+    url: https://github.com/diegoalonsoqj/SprayHub/security/advisories/new
     about: Please report security issues privately, not as public issues.
   - name: Question / Discussion
-    url: https://github.com/diegoquispe/SprayHub/discussions
+    url: https://github.com/diegoalonsoqj/SprayHub/discussions
     about: Ask questions and discuss ideas with the community.

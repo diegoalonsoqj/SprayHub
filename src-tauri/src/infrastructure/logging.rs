@@ -9,7 +9,7 @@ use directories::ProjectDirs;
 /// Initialize logging. Returns the log file path on success. Failures are
 /// non-fatal — the app still runs without file logging.
 pub fn init() -> Option<PathBuf> {
-    let dirs = ProjectDirs::from("com", "diegoquispe", "SprayHub")?;
+    let dirs = ProjectDirs::from("com", "diegoalonsoqj", "SprayHub")?;
     let log_dir = dirs.data_dir().join("logs");
     if fs::create_dir_all(&log_dir).is_err() {
         return None;

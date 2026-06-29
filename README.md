@@ -4,7 +4,7 @@
 
 **Professional, cross-platform suite for managing Source Engine sprays.**
 
-[![CI](https://github.com/diegoquispe/SprayHub/actions/workflows/ci.yml/badge.svg)](https://github.com/diegoquispe/SprayHub/actions/workflows/ci.yml)
+[![CI](https://github.com/diegoalonsoqj/SprayHub/actions/workflows/ci.yml/badge.svg)](https://github.com/diegoalonsoqj/SprayHub/actions/workflows/ci.yml)
 [![License: Community](https://img.shields.io/badge/license-Community%20v1.0-blue.svg)](./LICENSE.md)
 [![Tauri](https://img.shields.io/badge/Tauri-v2-24C8DB?logo=tauri)](https://tauri.app)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev)
