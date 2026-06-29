@@ -42,8 +42,5 @@ Thumbs.db
 # Test coverage
 coverage/
 
-# Local Claude Code settings (may contain machine-specific permissions)
-.claude/settings.local.json
-
 # Project prompt / design briefs (kept locally, not committed)
 docs/prompt/
