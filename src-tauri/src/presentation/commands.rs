@@ -62,10 +62,7 @@ pub async fn scan_sprays(
 }
 
 #[tauri::command]
-pub async fn get_thumbnail(
-    state: State<'_, AppState>,
-    vtf_path: String,
-) -> CommandResult<String> {
+pub async fn get_thumbnail(state: State<'_, AppState>, vtf_path: String) -> CommandResult<String> {
     let uc = state.sprays.clone();
     blocking(move || uc.thumbnail(&vtf_path)).await
 }

@@ -6,10 +6,7 @@ use std::path::{Component, Path, PathBuf};
 
 /// Reject paths containing parent (`..`) traversal components.
 pub fn ensure_no_traversal(path: &Path) -> AppResult<()> {
-    if path
-        .components()
-        .any(|c| matches!(c, Component::ParentDir))
-    {
+    if path.components().any(|c| matches!(c, Component::ParentDir)) {
         return Err(AppError::Validation(format!(
             "path traversal is not allowed: {}",
             path.display()

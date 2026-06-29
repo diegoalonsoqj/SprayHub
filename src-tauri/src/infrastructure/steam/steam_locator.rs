@@ -36,13 +36,12 @@ impl SteamRepository for SteamLocator {
     }
 
     fn list_games(&self, detection: &SteamDetection) -> AppResult<Vec<GameInfo>> {
-        let libraries: Vec<PathBuf> =
-            detection.libraries.iter().map(PathBuf::from).collect();
+        let libraries: Vec<PathBuf> = detection.libraries.iter().map(PathBuf::from).collect();
 
         let games = game_catalog::GAMES
             .iter()
-            .map(|def| {
-                match resolve_install_dir(&libraries, def.app_id, def.install_dir_name) {
+            .map(
+                |def| match resolve_install_dir(&libraries, def.app_id, def.install_dir_name) {
                     Some(install_dir) => {
                         let sprays_dir = install_dir.join(def.sprays_relative);
                         GameInfo {
@@ -55,8 +54,8 @@ impl SteamRepository for SteamLocator {
                         }
                     }
                     None => GameInfo::uninstalled(def),
-                }
-            })
+                },
+            )
             .collect();
 
         Ok(games)
@@ -121,12 +120,9 @@ fn locate_steam_root() -> Option<PathBuf> {
         }
     }
 
-    for candidate in default_steam_paths() {
-        if candidate.join("steamapps").is_dir() || candidate.is_dir() {
-            return Some(candidate);
-        }
-    }
-    None
+    default_steam_paths()
+        .into_iter()
+        .find(|candidate| candidate.join("steamapps").is_dir() || candidate.is_dir())
 }
 
 #[cfg(windows)]
@@ -146,10 +142,7 @@ fn locate_steam_root_windows() -> Option<PathBuf> {
     }
 
     let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
-    for sub in [
-        r"SOFTWARE\WOW6432Node\Valve\Steam",
-        r"SOFTWARE\Valve\Steam",
-    ] {
+    for sub in [r"SOFTWARE\WOW6432Node\Valve\Steam", r"SOFTWARE\Valve\Steam"] {
         if let Ok(key) = hklm.open_subkey(sub) {
             if let Ok(path) = key.get_value::<String, _>("InstallPath") {
                 let p = PathBuf::from(path);

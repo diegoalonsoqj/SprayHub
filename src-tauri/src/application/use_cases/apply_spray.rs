@@ -27,7 +27,9 @@ impl ApplySpray {
             return Err(AppError::Validation("source .vtf path is empty".into()));
         }
         if request.destination_dir.trim().is_empty() {
-            return Err(AppError::Validation("destination directory is empty".into()));
+            return Err(AppError::Validation(
+                "destination directory is empty".into(),
+            ));
         }
 
         let vtf = Path::new(&request.vtf_path);

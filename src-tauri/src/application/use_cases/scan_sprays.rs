@@ -18,7 +18,7 @@ impl ScanSprays {
     pub fn scan(&self, library_dir: &str) -> AppResult<Vec<Spray>> {
         let mut sprays = self.sprays.scan(library_dir)?;
         // Deterministic, case-insensitive ordering for a stable grid.
-        sprays.sort_by(|a, b| a.name.to_lowercase().cmp(&b.name.to_lowercase()));
+        sprays.sort_by_key(|s| s.name.to_lowercase());
         Ok(sprays)
     }
 

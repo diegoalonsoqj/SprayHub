@@ -74,9 +74,11 @@ mod tests {
     fn save_then_load_roundtrips() {
         let tmp = tempfile::tempdir().unwrap();
         let repo = JsonConfigRepository::at(tmp.path().join("config.json"));
-        let mut cfg = AppConfig::default();
-        cfg.selected_game_id = Some("tf2".into());
-        cfg.language = "en".into();
+        let cfg = AppConfig {
+            selected_game_id: Some("tf2".into()),
+            language: "en".into(),
+            ..Default::default()
+        };
         repo.save(&cfg).unwrap();
         assert_eq!(repo.load().unwrap(), cfg);
     }

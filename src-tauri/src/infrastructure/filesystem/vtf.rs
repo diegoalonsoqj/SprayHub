@@ -66,7 +66,10 @@ fn decode_main_image(bytes: &[u8]) -> AppResult<(u32, u32, Vec<u8>)> {
     let offset = offset_to_mip(data_start, &header, level)?;
 
     let size = image_data_size(mip_w, mip_h, header.high_format).ok_or_else(|| {
-        AppError::Validation(format!("unsupported VTF image format: {}", header.high_format))
+        AppError::Validation(format!(
+            "unsupported VTF image format: {}",
+            header.high_format
+        ))
     })?;
     let end = offset
         .checked_add(size)
@@ -151,7 +154,10 @@ fn offset_to_mip(start: usize, header: &VtfHeader, level: u32) -> AppResult<usiz
         let mw = (header.width >> i).max(1);
         let mh = (header.height >> i).max(1);
         let size = image_data_size(mw, mh, header.high_format).ok_or_else(|| {
-            AppError::Validation(format!("unsupported VTF image format: {}", header.high_format))
+            AppError::Validation(format!(
+                "unsupported VTF image format: {}",
+                header.high_format
+            ))
         })?;
         offset = offset
             .checked_add(header.frames as usize * size)
@@ -450,8 +456,7 @@ fn adler32(bytes: &[u8]) -> u32 {
 
 /// Standard base64 encoder (RFC 4648).
 fn base64_encode(data: &[u8]) -> String {
-    const TABLE: &[u8; 64] =
-        b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    const TABLE: &[u8; 64] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     let mut out = String::with_capacity(data.len().div_ceil(3) * 4);
     for chunk in data.chunks(3) {
         let b0 = chunk[0] as u32;
