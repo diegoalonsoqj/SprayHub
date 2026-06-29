@@ -13,10 +13,10 @@
     "windows": [
       {
         "title": "SprayHub",
-        "width": 1100,
-        "height": 720,
-        "minWidth": 860,
-        "minHeight": 560,
+        "width": 840,
+        "height": 580,
+        "minWidth": 560,
+        "minHeight": 420,
         "resizable": true,
         "center": true,
         "theme": "Dark"
