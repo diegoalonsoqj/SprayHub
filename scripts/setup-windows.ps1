@@ -6,8 +6,8 @@
 
 .DESCRIPTION
   Idempotent: each tool is only installed if missing. Uses winget for system
-  packages. Some installs trigger a UAC prompt — accept them. After installing
-  Rust/MSVC the script refreshes PATH in the current session so `cargo` is
+  packages. Some installs trigger a UAC prompt - accept them. After installing
+  Rust/MSVC the script refreshes PATH in the current session so 'cargo' is
   found without reopening the terminal.
 
 .EXAMPLE
@@ -45,7 +45,7 @@ function Update-SessionPath {
 # Move to the repository root (parent of this script's folder).
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $repoRoot
-Write-Host "SprayHub setup — repo: $repoRoot" -ForegroundColor White
+Write-Host "SprayHub setup - repo: $repoRoot" -ForegroundColor White
 
 # ---------------------------------------------------------------------------
 # 0. Prerequisites: winget
@@ -77,9 +77,8 @@ if ($hasMsvc) {
   Write-Skip "Visual Studio C++ build tools appear to be present"
 } else {
   Write-Host "    Installing Visual Studio 2022 Build Tools with the C++ workload (large download)..." -ForegroundColor Yellow
-  winget install --id Microsoft.VisualStudio.2022.BuildTools -e `
-    --accept-package-agreements --accept-source-agreements `
-    --override "--quiet --wait --norestart --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+  $vsArgs = "--quiet --wait --norestart --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+  winget install --id Microsoft.VisualStudio.2022.BuildTools -e --accept-package-agreements --accept-source-agreements --override $vsArgs
 }
 
 # ---------------------------------------------------------------------------
@@ -94,7 +93,7 @@ if (Test-Path $webview2Key) {
   try {
     winget install --id Microsoft.EdgeWebView2Runtime -e --accept-package-agreements --accept-source-agreements
   } catch {
-    Write-Skip "WebView2 install reported an issue (often already bundled with Windows) — continuing"
+    Write-Skip "WebView2 install reported an issue (often bundled with Windows) - continuing"
   }
 }
 
@@ -125,7 +124,7 @@ if (Test-Command "rustup") {
 # ---------------------------------------------------------------------------
 Write-Step "Installing JS dependencies"
 if (Test-Path "node_modules") {
-  Write-Skip "node_modules present — running 'npm install' to sync"
+  Write-Skip "node_modules present - running 'npm install' to sync"
 }
 npm install
 
@@ -137,7 +136,7 @@ Update-SessionPath
 Write-Host ("    node  : " + (node --version))
 Write-Host ("    npm   : " + (npm --version))
 if (Test-Command "cargo") { Write-Host ("    cargo : " + (cargo --version)) }
-else { Write-Warning "cargo still not on PATH — reopen the terminal before running 'npm run tauri:dev'." }
+else { Write-Warning "cargo still not on PATH - reopen the terminal before running 'npm run tauri:dev'." }
 
 # ---------------------------------------------------------------------------
 # 7. Launch
