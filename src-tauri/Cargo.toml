@@ -1,0 +1,46 @@
+[package]
+name = "sprayhub"
+version = "0.1.0"
+description = "Professional cross-platform suite for managing Source Engine sprays."
+authors = ["Diego Quispe"]
+license = "SEE LICENSE IN ../LICENSE.md"
+repository = "https://github.com/diegoquispe/SprayHub"
+edition = "2021"
+rust-version = "1.77"
+
+# The library is what Tauri binds to; the binary is a thin launcher.
+[lib]
+name = "sprayhub_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+log = "0.4"
+fern = "0.7"
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+directories = "5"
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.52"
+
+[dev-dependencies]
+tempfile = "3"
+
+[features]
+# This feature is used for production builds or when a dev server is not present.
+custom-protocol = ["tauri/custom-protocol"]
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true

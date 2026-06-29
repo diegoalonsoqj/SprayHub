@@ -1,0 +1,13 @@
+# Normalize line endings to LF across platforms (matches Prettier endOfLine: lf).
+* text=auto eol=lf
+
+# Shell scripts must stay LF.
+*.sh text eol=lf
+
+# Binary assets — never normalize.
+*.png binary
+*.ico binary
+*.icns binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
