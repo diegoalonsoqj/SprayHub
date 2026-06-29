@@ -6,9 +6,7 @@
   "permissions": [
     "core:default",
     "dialog:default",
-    {
-      "identifier": "fs:allow-read-text-file",
-      "allow": [{ "path": "$APPDATA/**" }, { "path": "$APPCONFIG/**" }]
-    }
+    "dialog:allow-open",
+    "dialog:allow-save"
   ]
 }

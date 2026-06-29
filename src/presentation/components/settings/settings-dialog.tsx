@@ -18,6 +18,8 @@ import {
 import { Input } from "@/presentation/components/ui/input";
 import { Label } from "@/presentation/components/ui/label";
 import { Switch } from "@/presentation/components/ui/switch";
+import { toast } from "@/presentation/components/ui/toast";
+import { useErrorMessage } from "@/presentation/hooks/use-error-message";
 
 interface SettingsDialogProps {
   open: boolean;
@@ -37,12 +39,15 @@ export function SettingsDialog({
   onSave,
 }: SettingsDialogProps) {
   const { t } = useTranslation();
+  const toMessage = useErrorMessage();
   const [draft, setDraft] = useState<AppConfig>(config);
 
-  // Re-sync the draft whenever the dialog opens.
+  // Re-sync the draft only when the dialog transitions to open, so background
+  // config updates don't wipe edits the user is making.
   useEffect(() => {
     if (isOpen) setDraft(config);
-  }, [isOpen, config]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   const patch = (partial: Partial<AppConfig>) => setDraft((d) => ({ ...d, ...partial }));
 
@@ -56,8 +61,17 @@ export function SettingsDialog({
   };
 
   const browseLibrary = async () => {
-    const selected = await open({ directory: true, multiple: false });
-    if (typeof selected === "string") patch({ libraryDir: selected });
+    try {
+      const selected = await open({
+        directory: true,
+        multiple: false,
+        title: t("settings.libraryDir"),
+      });
+      if (typeof selected === "string") patch({ libraryDir: selected });
+    } catch (err) {
+      // Surface dialog/permission failures instead of failing silently.
+      toast.error(toMessage(err));
+    }
   };
 
   const submit = async () => {
