@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Delete sprays from the library: a trash button on each card (with a
+  confirmation dialog) removes the `.vtf` and `.vmt` files.
 - Create sprays from a PNG: import a transparent image (fit to 512×512,
   preserving aspect with transparent padding) to generate the `.vtf` and a
   matching `.vmt`. Texture format is selectable in Settings — **BGRA8888**

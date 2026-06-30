@@ -25,4 +25,8 @@ impl ScanSprays {
     pub fn thumbnail(&self, vtf_path: &str) -> AppResult<String> {
         self.sprays.thumbnail(vtf_path)
     }
+
+    pub fn delete(&self, vtf_path: &str, vmt_path: Option<&str>) -> AppResult<()> {
+        self.sprays.delete(vtf_path, vmt_path)
+    }
 }

@@ -9,4 +9,7 @@ pub trait SprayRepository: Send + Sync {
 
     /// Decode a thumbnail for the given `.vtf` file, returned as a data URL.
     fn thumbnail(&self, vtf_path: &str) -> AppResult<String>;
+
+    /// Delete a spray's `.vtf` (and its `.vmt`, if present) from disk.
+    fn delete(&self, vtf_path: &str, vmt_path: Option<&str>) -> AppResult<()>;
 }

@@ -1,4 +1,4 @@
-import { ImageOff, Star } from "lucide-react";
+import { ImageOff, Star, Trash2 } from "lucide-react";
 import { memo } from "react";
 
 import type { Spray } from "@/domain/entities/spray";
@@ -12,6 +12,7 @@ interface SprayCardProps {
   onSelect: (id: string) => void;
   onActivate: (spray: Spray) => void;
   onToggleFavorite: (id: string) => void;
+  onDelete: (spray: Spray) => void;
 }
 
 function SprayCardImpl({
@@ -21,6 +22,7 @@ function SprayCardImpl({
   onSelect,
   onActivate,
   onToggleFavorite,
+  onDelete,
 }: SprayCardProps) {
   const { ref, src, failed } = useThumbnail(spray.vtfPath);
 
@@ -85,6 +87,19 @@ function SprayCardImpl({
         <Star
           className={cn("size-3.5", favorite ? "fill-yellow-400 text-yellow-400" : "text-white")}
         />
+      </span>
+
+      <span
+        role="button"
+        tabIndex={-1}
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete(spray);
+        }}
+        className="absolute left-1.5 top-1.5 rounded-full bg-black/40 p-1 text-white opacity-0 transition-opacity hover:bg-destructive group-hover:opacity-100"
+        aria-label="Delete spray"
+      >
+        <Trash2 className="size-3.5" />
       </span>
     </button>
   );

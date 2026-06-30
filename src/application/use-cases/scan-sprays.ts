@@ -13,6 +13,10 @@ export class ScanSprays {
     return this.repo.thumbnail(vtfPath);
   }
 
+  delete(vtfPath: string, vmtPath: string | null): Promise<void> {
+    return this.repo.delete(vtfPath, vmtPath);
+  }
+
   /** Pure helper: instant client-side filtering by name. */
   static filter(sprays: Spray[], query: string): Spray[] {
     const q = query.trim().toLowerCase();

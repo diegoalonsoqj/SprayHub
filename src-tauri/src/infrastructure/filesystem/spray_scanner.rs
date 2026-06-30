@@ -5,6 +5,7 @@ use std::time::UNIX_EPOCH;
 
 use crate::domain::entities::Spray;
 use crate::domain::error::{AppError, AppResult};
+use crate::domain::path_rules;
 use crate::domain::repositories::SprayRepository;
 
 use super::vtf;
@@ -83,6 +84,22 @@ impl SprayRepository for FsSprayRepository {
         }
         let bytes = std::fs::read(path)?;
         vtf::thumbnail_data_url(&bytes)
+    }
+
+    fn delete(&self, vtf_path: &str, vmt_path: Option<&str>) -> AppResult<()> {
+        let vtf = Path::new(vtf_path);
+        path_rules::ensure_no_traversal(vtf)?;
+        if vtf.is_file() {
+            std::fs::remove_file(vtf)?;
+        }
+        if let Some(vmt) = vmt_path {
+            let vmt = Path::new(vmt);
+            path_rules::ensure_no_traversal(vmt)?;
+            if vmt.is_file() {
+                let _ = std::fs::remove_file(vmt);
+            }
+        }
+        Ok(())
     }
 }
 

@@ -11,4 +11,8 @@ export class TauriSprayRepository implements SprayRepository {
   thumbnail(vtfPath: string): Promise<string> {
     return invoke<string>("get_thumbnail", { vtfPath });
   }
+
+  delete(vtfPath: string, vmtPath: string | null): Promise<void> {
+    return invoke<void>("delete_spray", { vtfPath, vmtPath });
+  }
 }

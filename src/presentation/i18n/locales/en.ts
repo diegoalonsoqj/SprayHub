@@ -47,6 +47,13 @@ export const en = {
       save: "Save",
       cancel: "Cancel",
     },
+    delete: {
+      title: "Delete spray",
+      message: 'Delete "{{name}}"? Its .vtf and .vmt files will be removed.',
+      confirm: "Delete",
+      cancel: "Cancel",
+      success: 'Spray "{{name}}" deleted',
+    },
     apply: {
       title: "Confirm apply",
       message: 'This will apply "{{name}}" to the selected game.',

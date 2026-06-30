@@ -14,6 +14,7 @@ import { useSprays } from "@/presentation/hooks/use-sprays";
 import { useErrorMessage } from "@/presentation/hooks/use-error-message";
 
 import { ApplyConfirmDialog } from "@/presentation/components/apply/apply-confirm-dialog";
+import { DeleteConfirmDialog } from "@/presentation/components/spray/delete-confirm-dialog";
 import { EmptyState } from "@/presentation/components/common/empty-state";
 import { Button } from "@/presentation/components/ui/button";
 import { toast } from "@/presentation/components/ui/toast";
@@ -36,6 +37,7 @@ export function LibraryPage() {
 
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [pendingSpray, setPendingSpray] = useState<Spray | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<Spray | null>(null);
   const [dragging, setDragging] = useState(false);
 
   const filtered = useMemo(() => ScanSprays.filter(sprays, search), [sprays, search]);
@@ -110,6 +112,17 @@ export function LibraryPage() {
     }
   };
 
+  const doDelete = async (spray: Spray) => {
+    try {
+      await container.scanSprays.delete(spray.vtfPath, spray.vmtPath);
+      if (selectedId === spray.id) selectSpray(null);
+      await refresh();
+      toast.success(t("delete.success", { name: spray.name }));
+    } catch (err) {
+      toast.error(toMessage(err));
+    }
+  };
+
   const onDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setDragging(false);
@@ -177,6 +190,7 @@ export function LibraryPage() {
             onSelect={selectSpray}
             onActivate={onActivate}
             onToggleFavorite={toggleFavorite}
+            onDelete={setPendingDelete}
           />
         )}
       </main>
@@ -202,6 +216,19 @@ export function LibraryPage() {
           const spray = pendingSpray;
           setPendingSpray(null);
           if (spray) void doApply(spray);
+        }}
+      />
+
+      <DeleteConfirmDialog
+        open={pendingDelete !== null}
+        onOpenChange={(open) => {
+          if (!open) setPendingDelete(null);
+        }}
+        spray={pendingDelete}
+        onConfirm={() => {
+          const spray = pendingDelete;
+          setPendingDelete(null);
+          if (spray) void doDelete(spray);
         }}
       />
     </div>

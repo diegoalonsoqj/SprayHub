@@ -47,6 +47,13 @@ export const es = {
       save: "Guardar",
       cancel: "Cancelar",
     },
+    delete: {
+      title: "Eliminar spray",
+      message: '¿Seguro que quieres eliminar "{{name}}"? Se borrarán sus archivos .vtf y .vmt.',
+      confirm: "Eliminar",
+      cancel: "Cancelar",
+      success: 'Spray "{{name}}" eliminado',
+    },
     apply: {
       title: "Confirmar aplicación",
       message: 'Se aplicará "{{name}}" al juego seleccionado.',

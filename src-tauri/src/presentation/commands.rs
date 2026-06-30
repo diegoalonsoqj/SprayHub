@@ -69,6 +69,16 @@ pub async fn get_thumbnail(state: State<'_, AppState>, vtf_path: String) -> Comm
 }
 
 #[tauri::command]
+pub async fn delete_spray(
+    state: State<'_, AppState>,
+    vtf_path: String,
+    vmt_path: Option<String>,
+) -> CommandResult<()> {
+    let uc = state.sprays.clone();
+    blocking(move || uc.delete(&vtf_path, vmt_path.as_deref())).await
+}
+
+#[tauri::command]
 pub async fn apply_spray(
     state: State<'_, AppState>,
     request: ApplySprayRequest,

@@ -9,6 +9,7 @@ interface SprayGridProps {
   onSelect: (id: string) => void;
   onActivate: (spray: Spray) => void;
   onToggleFavorite: (id: string) => void;
+  onDelete: (spray: Spray) => void;
 }
 
 export function SprayGrid({
@@ -18,6 +19,7 @@ export function SprayGrid({
   onSelect,
   onActivate,
   onToggleFavorite,
+  onDelete,
 }: SprayGridProps) {
   return (
     <div className="grid grid-cols-[repeat(auto-fill,minmax(110px,1fr))] gap-3 p-4">
@@ -30,6 +32,7 @@ export function SprayGrid({
           onSelect={onSelect}
           onActivate={onActivate}
           onToggleFavorite={onToggleFavorite}
+          onDelete={onDelete}
         />
       ))}
     </div>
