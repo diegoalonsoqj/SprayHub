@@ -81,13 +81,13 @@ export function SettingsDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-xl">
+      <DialogContent className="flex max-h-[90vh] max-w-xl flex-col">
         <DialogHeader>
           <DialogTitle>{t("settings.title")}</DialogTitle>
           <DialogDescription>{t("settings.description")}</DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-4 py-2">
+        <div className="-mr-2 grid flex-1 gap-4 overflow-y-auto py-2 pr-2">
           {/* Library folder */}
           <div className="grid gap-1.5">
             <Label htmlFor="library">{t("settings.libraryDir")}</Label>
