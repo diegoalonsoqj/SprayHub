@@ -53,6 +53,7 @@ export const es = {
       message: '¿Seguro que quieres eliminar "{{name}}"? Se borrarán sus archivos .vtf y .vmt.',
       confirm: "Eliminar",
       cancel: "Cancelar",
+      alsoGame: "Quitar también de la carpeta del juego",
       success: 'Spray "{{name}}" eliminado',
     },
     apply: {

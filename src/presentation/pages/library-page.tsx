@@ -132,11 +132,16 @@ export function LibraryPage() {
     }
   };
 
-  const doDelete = async (spray: Spray) => {
+  const doDelete = async (spray: Spray, alsoRemoveFromGame: boolean) => {
     try {
       await container.scanSprays.delete(spray.vtfPath, spray.vmtPath);
+      if (alsoRemoveFromGame && destinationDir) {
+        const base = `${destinationDir}/${spray.name}`;
+        await container.scanSprays.delete(`${base}.vtf`, `${base}.vmt`);
+      }
       if (selectedId === spray.id) selectSpray(null);
       await refresh();
+      await refreshApplied();
       toast.success(t("delete.success", { name: spray.name }));
     } catch (err) {
       toast.error(toMessage(err));
@@ -246,10 +251,11 @@ export function LibraryPage() {
           if (!open) setPendingDelete(null);
         }}
         spray={pendingDelete}
-        onConfirm={() => {
+        applied={pendingDelete ? appliedNames.has(pendingDelete.name.toLowerCase()) : false}
+        onConfirm={(alsoRemoveFromGame) => {
           const spray = pendingDelete;
           setPendingDelete(null);
-          if (spray) void doDelete(spray);
+          if (spray) void doDelete(spray, alsoRemoveFromGame);
         }}
       />
     </div>

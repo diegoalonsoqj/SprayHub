@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - "In game" badge on sprays whose files already exist in the selected game's
   destination folder, so you can see at a glance what has been applied.
 - Delete sprays from the library: a trash button on each card (with a
-  confirmation dialog) removes the `.vtf` and `.vmt` files.
+  confirmation dialog) removes the `.vtf` and `.vmt` files. When the spray is
+  also in the game folder, an optional checkbox removes that copy too.
 
 ### Fixed
 
