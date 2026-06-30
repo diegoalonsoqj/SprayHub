@@ -1,7 +1,7 @@
 {
   "name": "sprayhub",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "Professional cross-platform suite for managing Source Engine sprays.",
   "author": "Diego Quispe",
