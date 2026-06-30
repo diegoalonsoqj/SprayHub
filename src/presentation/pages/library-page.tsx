@@ -1,5 +1,5 @@
 import { FolderInput, ImageOff, SearchX } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { Spray } from "@/domain/entities/spray";
@@ -39,6 +39,7 @@ export function LibraryPage() {
   const [pendingSpray, setPendingSpray] = useState<Spray | null>(null);
   const [pendingDelete, setPendingDelete] = useState<Spray | null>(null);
   const [dragging, setDragging] = useState(false);
+  const [appliedNames, setAppliedNames] = useState<Set<string>>(new Set());
 
   const filtered = useMemo(() => ScanSprays.filter(sprays, search), [sprays, search]);
 
@@ -46,6 +47,24 @@ export function LibraryPage() {
   const destinationDir = config.destinationDir ?? selectedGame?.spraysDir ?? null;
   const selectedSpray = sprays.find((s) => s.id === selectedId) ?? null;
   const canApply = Boolean(selectedSpray && destinationDir);
+
+  // Flag sprays whose files already exist in the game's destination folder.
+  const refreshApplied = useCallback(async () => {
+    if (!destinationDir) {
+      setAppliedNames(new Set());
+      return;
+    }
+    try {
+      const names = await container.scanSprays.appliedNames(destinationDir);
+      setAppliedNames(new Set(names.map((n) => n.toLowerCase())));
+    } catch {
+      setAppliedNames(new Set());
+    }
+  }, [destinationDir]);
+
+  useEffect(() => {
+    void refreshApplied();
+  }, [refreshApplied]);
 
   const doApply = async (spray: Spray) => {
     if (!destinationDir) {
@@ -63,6 +82,7 @@ export function LibraryPage() {
     try {
       await container.applySpray.execute(request);
       toast.success(t("apply.success", { name: spray.name }));
+      await refreshApplied();
     } catch (err) {
       toast.error(toMessage(err));
     }
@@ -187,6 +207,7 @@ export function LibraryPage() {
             sprays={filtered}
             selectedId={selectedId}
             favorites={config.favorites}
+            appliedNames={appliedNames}
             onSelect={selectSpray}
             onActivate={onActivate}
             onToggleFavorite={toggleFavorite}

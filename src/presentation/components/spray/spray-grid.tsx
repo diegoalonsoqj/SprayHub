@@ -6,6 +6,8 @@ interface SprayGridProps {
   sprays: Spray[];
   selectedId: string | null;
   favorites: string[];
+  /** Lowercased base names of sprays already present in the game folder. */
+  appliedNames: Set<string>;
   onSelect: (id: string) => void;
   onActivate: (spray: Spray) => void;
   onToggleFavorite: (id: string) => void;
@@ -16,6 +18,7 @@ export function SprayGrid({
   sprays,
   selectedId,
   favorites,
+  appliedNames,
   onSelect,
   onActivate,
   onToggleFavorite,
@@ -29,6 +32,7 @@ export function SprayGrid({
           spray={spray}
           selected={spray.id === selectedId}
           favorite={favorites.includes(spray.id)}
+          applied={appliedNames.has(spray.name.toLowerCase())}
           onSelect={onSelect}
           onActivate={onActivate}
           onToggleFavorite={onToggleFavorite}

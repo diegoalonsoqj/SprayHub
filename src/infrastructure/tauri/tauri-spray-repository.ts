@@ -15,4 +15,8 @@ export class TauriSprayRepository implements SprayRepository {
   delete(vtfPath: string, vmtPath: string | null): Promise<void> {
     return invoke<void>("delete_spray", { vtfPath, vmtPath });
   }
+
+  appliedNames(destinationDir: string): Promise<string[]> {
+    return invoke<string[]>("applied_spray_names", { destinationDir });
+  }
 }

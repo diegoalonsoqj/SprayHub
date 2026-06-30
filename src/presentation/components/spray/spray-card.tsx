@@ -1,5 +1,6 @@
-import { ImageOff, Star, Trash2 } from "lucide-react";
+import { CheckCircle2, ImageOff, Star, Trash2 } from "lucide-react";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 
 import type { Spray } from "@/domain/entities/spray";
 import { cn, formatBytes } from "@/presentation/lib/utils";
@@ -9,6 +10,7 @@ interface SprayCardProps {
   spray: Spray;
   selected: boolean;
   favorite: boolean;
+  applied: boolean;
   onSelect: (id: string) => void;
   onActivate: (spray: Spray) => void;
   onToggleFavorite: (id: string) => void;
@@ -19,11 +21,13 @@ function SprayCardImpl({
   spray,
   selected,
   favorite,
+  applied,
   onSelect,
   onActivate,
   onToggleFavorite,
   onDelete,
 }: SprayCardProps) {
+  const { t } = useTranslation();
   const { ref, src, failed } = useThumbnail(spray.vtfPath);
 
   return (
@@ -48,7 +52,7 @@ function SprayCardImpl({
     >
       <div
         ref={ref}
-        className="flex aspect-square w-full items-center justify-center bg-[repeating-conic-gradient(theme(colors.border)_0%_25%,transparent_0%_50%)] bg-[length:16px_16px]"
+        className="relative flex aspect-square w-full items-center justify-center bg-[repeating-conic-gradient(theme(colors.border)_0%_25%,transparent_0%_50%)] bg-[length:16px_16px]"
       >
         {src ? (
           <img
@@ -61,6 +65,15 @@ function SprayCardImpl({
           <ImageOff className="size-6 text-muted-foreground" />
         ) : (
           <div className="size-6 animate-pulse rounded bg-muted" />
+        )}
+
+        {applied && (
+          <span
+            className="absolute bottom-1 right-1 rounded-full bg-background/80 p-0.5"
+            title={t("library.inGame")}
+          >
+            <CheckCircle2 className="size-4 text-emerald-500" />
+          </span>
         )}
       </div>
 

@@ -23,6 +23,7 @@ export const es = {
       noLibrary: "Selecciona una carpeta de biblioteca para empezar",
       openSettings: "Abrir Ajustes",
       loading: "Escaneando biblioteca...",
+      inGame: "Ya está en la carpeta del juego",
     },
     settings: {
       title: "Ajustes",

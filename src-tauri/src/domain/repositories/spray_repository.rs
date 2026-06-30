@@ -12,4 +12,9 @@ pub trait SprayRepository: Send + Sync {
 
     /// Delete a spray's `.vtf` (and its `.vmt`, if present) from disk.
     fn delete(&self, vtf_path: &str, vmt_path: Option<&str>) -> AppResult<()>;
+
+    /// List the base names (file stems) of `.vtf` files present in `dir`. Used
+    /// to flag sprays already applied to a game's logos folder. Returns an empty
+    /// list if the directory does not exist.
+    fn applied_names(&self, dir: &str) -> AppResult<Vec<String>>;
 }

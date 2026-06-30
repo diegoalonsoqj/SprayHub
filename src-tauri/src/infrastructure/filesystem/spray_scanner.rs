@@ -101,6 +101,28 @@ impl SprayRepository for FsSprayRepository {
         }
         Ok(())
     }
+
+    fn applied_names(&self, dir: &str) -> AppResult<Vec<String>> {
+        let path = Path::new(dir);
+        if !path.is_dir() {
+            return Ok(Vec::new());
+        }
+        let mut names = Vec::new();
+        for entry in std::fs::read_dir(path)? {
+            let entry = entry?;
+            let p = entry.path();
+            let is_vtf = p
+                .extension()
+                .map(|e| e.eq_ignore_ascii_case("vtf"))
+                .unwrap_or(false);
+            if is_vtf {
+                if let Some(stem) = p.file_stem() {
+                    names.push(stem.to_string_lossy().into_owned());
+                }
+            }
+        }
+        Ok(names)
+    }
 }
 
 /// Short, stable identifier derived from the absolute path (FNV-1a, hex).

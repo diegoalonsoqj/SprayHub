@@ -23,6 +23,7 @@ export const en = {
       noLibrary: "Select a library folder to get started",
       openSettings: "Open Settings",
       loading: "Scanning library...",
+      inGame: "Already in the game folder",
     },
     settings: {
       title: "Settings",

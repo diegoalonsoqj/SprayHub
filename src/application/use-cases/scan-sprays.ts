@@ -17,6 +17,10 @@ export class ScanSprays {
     return this.repo.delete(vtfPath, vmtPath);
   }
 
+  appliedNames(destinationDir: string): Promise<string[]> {
+    return this.repo.appliedNames(destinationDir);
+  }
+
   /** Pure helper: instant client-side filtering by name. */
   static filter(sprays: Spray[], query: string): Spray[] {
     const q = query.trim().toLowerCase();

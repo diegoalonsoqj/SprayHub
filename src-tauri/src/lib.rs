@@ -35,6 +35,7 @@ pub fn run() {
             commands::apply_spray,
             commands::create_spray,
             commands::delete_spray,
+            commands::applied_spray_names,
         ])
         .run(tauri::generate_context!())
         .expect("error while running the SprayHub application");

@@ -29,4 +29,8 @@ impl ScanSprays {
     pub fn delete(&self, vtf_path: &str, vmt_path: Option<&str>) -> AppResult<()> {
         self.sprays.delete(vtf_path, vmt_path)
     }
+
+    pub fn applied_names(&self, dir: &str) -> AppResult<Vec<String>> {
+        self.sprays.applied_names(dir)
+    }
 }

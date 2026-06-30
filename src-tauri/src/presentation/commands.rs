@@ -79,6 +79,15 @@ pub async fn delete_spray(
 }
 
 #[tauri::command]
+pub async fn applied_spray_names(
+    state: State<'_, AppState>,
+    destination_dir: String,
+) -> CommandResult<Vec<String>> {
+    let uc = state.sprays.clone();
+    blocking(move || uc.applied_names(&destination_dir)).await
+}
+
+#[tauri::command]
 pub async fn apply_spray(
     state: State<'_, AppState>,
     request: ApplySprayRequest,
