@@ -1,6 +1,6 @@
 [package]
 name = "sprayhub"
-version = "0.2.0"
+version = "0.2.1"
 description = "Professional cross-platform suite for managing Source Engine sprays."
 authors = ["Diego Quispe"]
 license = "SEE LICENSE IN ../LICENSE.md"
