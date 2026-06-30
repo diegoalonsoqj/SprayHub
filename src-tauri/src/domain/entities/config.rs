@@ -21,9 +21,16 @@ pub struct AppConfig {
     pub language: String,
     /// UI theme (`"dark"` or `"light"`).
     pub theme: String,
+    /// Texture format used when creating sprays from images (`"bgra8888"` or `"dxt5"`).
+    #[serde(default = "default_spray_format")]
+    pub spray_format: String,
     /// Favorite spray ids (future feature; persisted now for forward-compat).
     #[serde(default)]
     pub favorites: Vec<String>,
+}
+
+fn default_spray_format() -> String {
+    "bgra8888".to_string()
 }
 
 impl Default for AppConfig {
@@ -37,6 +44,7 @@ impl Default for AppConfig {
             apply_on_double_click: false,
             language: "es".to_string(),
             theme: "dark".to_string(),
+            spray_format: default_spray_format(),
             favorites: Vec::new(),
         }
     }

@@ -33,6 +33,7 @@ pub fn run() {
             commands::scan_sprays,
             commands::get_thumbnail,
             commands::apply_spray,
+            commands::create_spray,
         ])
         .run(tauri::generate_context!())
         .expect("error while running the SprayHub application");

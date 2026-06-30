@@ -87,7 +87,7 @@ impl SprayRepository for FsSprayRepository {
 }
 
 /// Short, stable identifier derived from the absolute path (FNV-1a, hex).
-fn stable_id(path: &str) -> String {
+pub(crate) fn stable_id(path: &str) -> String {
     const FNV_OFFSET: u64 = 0xcbf2_9ce4_8422_2325;
     const FNV_PRIME: u64 = 0x0000_0100_0000_01b3;
     let mut hash = FNV_OFFSET;

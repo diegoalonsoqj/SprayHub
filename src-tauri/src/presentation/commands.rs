@@ -5,7 +5,8 @@
 use tauri::State;
 
 use crate::application::dto::{ApplyResult, ApplySprayRequest};
-use crate::domain::entities::{AppConfig, GameInfo, Spray, SteamDetection};
+use crate::domain::entities::{AppConfig, GameInfo, NewSpray, Spray, SteamDetection};
+use crate::infrastructure::filesystem::vtf_encode;
 
 use super::error::{CommandError, CommandResult};
 use super::state::AppState;
@@ -74,4 +75,29 @@ pub async fn apply_spray(
 ) -> CommandResult<ApplyResult> {
     let uc = state.apply.clone();
     blocking(move || uc.execute(&request)).await
+}
+
+#[tauri::command]
+pub async fn create_spray(
+    state: State<'_, AppState>,
+    name: String,
+    width: u32,
+    height: u32,
+    rgba_base64: String,
+    format: String,
+    library_dir: String,
+) -> CommandResult<Spray> {
+    let uc = state.create.clone();
+    blocking(move || {
+        let rgba = vtf_encode::base64_decode(&rgba_base64)?;
+        uc.execute(NewSpray {
+            library_dir,
+            name,
+            width,
+            height,
+            rgba,
+            format,
+        })
+    })
+    .await
 }
