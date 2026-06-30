@@ -6,6 +6,7 @@ import type { Spray } from "@/domain/entities/spray";
 import type { ApplySprayRequest } from "@/domain/entities/apply";
 import { ScanSprays } from "@/application/use-cases/scan-sprays";
 import { container } from "@/presentation/container";
+import { fileToSprayImage } from "@/presentation/lib/image";
 import { useAppStore } from "@/presentation/store/app-store";
 import { useConfig } from "@/presentation/hooks/use-config";
 import { useGames } from "@/presentation/hooks/use-games";
@@ -35,6 +36,7 @@ export function LibraryPage() {
 
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [pendingSpray, setPendingSpray] = useState<Spray | null>(null);
+  const [dragging, setDragging] = useState(false);
 
   const filtered = useMemo(() => ScanSprays.filter(sprays, search), [sprays, search]);
 
@@ -85,8 +87,58 @@ export function LibraryPage() {
     if (config.applyOnDoubleClick) requestApply(spray);
   };
 
+  const handleImportFile = async (file: File) => {
+    if (!config.libraryDir) {
+      toast.error(t("import.noLibrary"));
+      return;
+    }
+    try {
+      const image = await fileToSprayImage(file);
+      const created = await container.createSpray.execute({
+        name: image.name,
+        width: image.width,
+        height: image.height,
+        rgbaBase64: image.rgbaBase64,
+        format: config.sprayFormat,
+        libraryDir: config.libraryDir,
+      });
+      await refresh();
+      selectSpray(created.id);
+      toast.success(t("import.success", { name: created.name }));
+    } catch (err) {
+      toast.error(toMessage(err));
+    }
+  };
+
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+    if (file.type === "image/png") {
+      void handleImportFile(file);
+    } else {
+      toast.error(t("import.notPng"));
+    }
+  };
+
   return (
-    <div className="flex h-full flex-col">
+    <div
+      className="relative flex h-full flex-col"
+      onDragOver={(e) => {
+        e.preventDefault();
+        setDragging(true);
+      }}
+      onDragLeave={(e) => {
+        if (e.currentTarget === e.target) setDragging(false);
+      }}
+      onDrop={onDrop}
+    >
+      {dragging && (
+        <div className="pointer-events-none absolute inset-0 z-50 m-2 flex items-center justify-center rounded-lg border-2 border-dashed border-primary bg-background/80 text-sm font-medium text-primary backdrop-blur-sm">
+          {t("import.dropHint")}
+        </div>
+      )}
       <Toolbar
         search={search}
         onSearch={setSearch}
@@ -96,6 +148,7 @@ export function LibraryPage() {
         onRefresh={refresh}
         onOpenSettings={() => setSettingsOpen(true)}
         onApply={() => requestApply(selectedSpray)}
+        onImport={handleImportFile}
       />
 
       <main className="flex-1 overflow-y-auto">

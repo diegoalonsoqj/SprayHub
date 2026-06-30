@@ -4,6 +4,7 @@
  * instead of constructing adapters ad hoc.
  */
 import { ApplySprayUseCase } from "@/application/use-cases/apply-spray";
+import { CreateSpray } from "@/application/use-cases/create-spray";
 import { DetectGames } from "@/application/use-cases/detect-games";
 import { ManageConfig } from "@/application/use-cases/manage-config";
 import { ScanSprays } from "@/application/use-cases/scan-sprays";
@@ -11,17 +12,20 @@ import { TauriApplierRepository } from "@/infrastructure/tauri/tauri-applier-rep
 import { TauriConfigRepository } from "@/infrastructure/tauri/tauri-config-repository";
 import { TauriGameRepository } from "@/infrastructure/tauri/tauri-game-repository";
 import { TauriSprayRepository } from "@/infrastructure/tauri/tauri-spray-repository";
+import { TauriWriterRepository } from "@/infrastructure/tauri/tauri-writer-repository";
 
 const sprayRepo = new TauriSprayRepository();
 const gameRepo = new TauriGameRepository();
 const configRepo = new TauriConfigRepository();
 const applierRepo = new TauriApplierRepository();
+const writerRepo = new TauriWriterRepository();
 
 export const container = {
   scanSprays: new ScanSprays(sprayRepo),
   detectGames: new DetectGames(gameRepo),
   manageConfig: new ManageConfig(configRepo),
   applySpray: new ApplySprayUseCase(applierRepo),
+  createSpray: new CreateSpray(writerRepo),
 } as const;
 
 export type Container = typeof container;

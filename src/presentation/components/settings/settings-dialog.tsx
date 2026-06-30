@@ -3,7 +3,7 @@ import { FolderOpen } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import type { AppConfig, Language } from "@/domain/entities/config";
+import type { AppConfig, Language, SprayFormat } from "@/domain/entities/config";
 import type { GameInfo } from "@/domain/entities/game";
 import type { SteamDetection } from "@/domain/entities/steam";
 import { Button } from "@/presentation/components/ui/button";
@@ -138,6 +138,24 @@ export function SettingsDialog({
               onChange={(e) => patch({ destinationDir: e.target.value || null })}
             />
             <p className="text-xs text-muted-foreground">{t("settings.destinationHint")}</p>
+          </div>
+
+          {/* Spray creation format */}
+          <div className="grid gap-1.5">
+            <Label htmlFor="sprayFormat">{t("settings.sprayFormat")}</Label>
+            <select
+              id="sprayFormat"
+              value={draft.sprayFormat}
+              onChange={(e) => patch({ sprayFormat: e.target.value as SprayFormat })}
+              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm [color-scheme:dark] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <option value="bgra8888" className="bg-popover text-popover-foreground">
+                {t("settings.sprayFormatBgra")}
+              </option>
+              <option value="dxt5" className="bg-popover text-popover-foreground">
+                {t("settings.sprayFormatDxt5")}
+              </option>
+            </select>
           </div>
 
           {/* Behavior switches */}

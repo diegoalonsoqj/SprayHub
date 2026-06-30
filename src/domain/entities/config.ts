@@ -1,5 +1,6 @@
 export type Language = "es" | "en";
 export type Theme = "dark" | "light";
+export type SprayFormat = "bgra8888" | "dxt5";
 
 /** Persisted application configuration (mirrors the Rust `AppConfig`). */
 export interface AppConfig {
@@ -11,6 +12,7 @@ export interface AppConfig {
   applyOnDoubleClick: boolean;
   language: Language;
   theme: Theme;
+  sprayFormat: SprayFormat;
   favorites: string[];
 }
 
@@ -23,5 +25,6 @@ export const defaultConfig: AppConfig = {
   applyOnDoubleClick: false,
   language: "es",
   theme: "dark",
+  sprayFormat: "bgra8888",
   favorites: [],
 };

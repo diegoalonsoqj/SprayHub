@@ -62,6 +62,19 @@ interface Spray {
 
 Returns a data URL (PNG) thumbnail decoded from the VTF, for lazy loading.
 
+### `create_spray(name, width, height, rgbaBase64, format, libraryDir) -> Spray`
+
+Generates a `.vtf` (and matching `.vmt`) from raw RGBA pixels and writes them
+into the library folder, returning the created spray.
+
+```ts
+// name: sanitized base name (letters/digits/_/-)
+// width/height: image dimensions (512 from the UI)
+// rgbaBase64: base64-encoded row-major RGBA8888 pixels
+// format: "bgra8888" (lossless) | "dxt5" (compressed)
+// libraryDir: destination spray library folder
+```
+
 ### `apply_spray(request: ApplySprayRequest) -> ApplyResult`
 
 Copies the selected spray into the game's `logos` directory atomically, with an

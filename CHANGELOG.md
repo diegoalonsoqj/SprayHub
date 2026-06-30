@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Create sprays from a PNG: import a transparent image (fit to 512×512,
+  preserving aspect with transparent padding) to generate the `.vtf` and a
+  matching `.vmt`. Texture format is selectable in Settings — **BGRA8888**
+  (lossless) or **DXT5** (compressed). Available via the "Import PNG" toolbar
+  button and by dragging a PNG onto the window.
+
 ## [0.1.0] - 2026-06-29
 
 First prototype release.

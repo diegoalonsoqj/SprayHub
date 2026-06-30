@@ -1,4 +1,5 @@
-import { RefreshCw, Search, Send, Settings as SettingsIcon } from "lucide-react";
+import { ImagePlus, RefreshCw, Search, Send, Settings as SettingsIcon } from "lucide-react";
+import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@/presentation/components/ui/button";
@@ -14,6 +15,7 @@ interface ToolbarProps {
   onRefresh: () => void;
   onOpenSettings: () => void;
   onApply: () => void;
+  onImport: (file: File) => void;
 }
 
 export function Toolbar({
@@ -25,8 +27,16 @@ export function Toolbar({
   onRefresh,
   onOpenSettings,
   onApply,
+  onImport,
 }: ToolbarProps) {
   const { t } = useTranslation();
+  const fileInput = useRef<HTMLInputElement>(null);
+
+  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) onImport(file);
+    e.target.value = ""; // allow re-selecting the same file
+  };
 
   return (
     <header className="flex items-center gap-2 border-b border-border bg-card/60 px-3 py-2 backdrop-blur">
@@ -49,6 +59,23 @@ export function Toolbar({
       <span className="hidden whitespace-nowrap px-1 text-xs text-muted-foreground sm:block">
         {t("toolbar.sprayCount", { count })}
       </span>
+
+      <input
+        ref={fileInput}
+        type="file"
+        accept="image/png"
+        className="hidden"
+        onChange={handleFile}
+      />
+
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="outline" size="icon" onClick={() => fileInput.current?.click()}>
+            <ImagePlus />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>{t("toolbar.import")}</TooltipContent>
+      </Tooltip>
 
       <Tooltip>
         <TooltipTrigger asChild>
